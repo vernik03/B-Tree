@@ -290,7 +290,5 @@ vector<string> TreeNode::PaintTree(vector<string> strings, int level) {
     if (!this->leaf) {
         strings = this->C[n]->PaintTree(strings, level + 1);
     }
-
-
     return strings;
 }
