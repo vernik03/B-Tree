@@ -6,10 +6,8 @@ using namespace std;
 TreeNode::TreeNode(int t1, bool leaf1) {
     t = t1;
     leaf = leaf1;
-
     keys = new double[2 * t - 1];
     C = new TreeNode * [2 * t];
-
     n = 0;
 }
 
