@@ -246,7 +246,6 @@ void TreeNode::BorrowFromNext(int idx) {
 
     if (!(child->is_leaf))
         child->C[(child->n) + 1] = sibling->C[0];
->	Algorithms_l2.exe!TreeNode::BorrowFromPrev(int idx) Строка 231	C++
 
     keys[idx] = sibling->keys[0];
 
