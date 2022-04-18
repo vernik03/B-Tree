@@ -11,7 +11,7 @@ public:
     void TraverseTree();
     TreeNode* Search(double k);
     void Insert(double k);
-    void ArrInsert(vector<double> input);
+    void Insert(vector<double> input);
     void Delete(double k);
     vector<string> PaintTree();
     void Find(double k);

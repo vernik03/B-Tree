@@ -5,7 +5,7 @@ using namespace std;
 
 TreeNode::TreeNode(int t1, bool leaf1) {
     t = t1;
-    leaf = leaf1;
+    is_leaf = leaf1;
     keys = new double[2 * t - 1];
     C = new TreeNode * [2 * t];
     n = 0;
@@ -18,13 +18,13 @@ int TreeNode::FindKey(double k) {
     return idx;
 }
 void TreeNode::SplitChild(int i, TreeNode* y) {
-    TreeNode* z = new TreeNode(y->t, y->leaf);
+    TreeNode* z = new TreeNode(y->t, y->is_leaf);
     z->n = t - 1;
 
     for (int j = 0; j < t - 1; j++)
         z->keys[j] = y->keys[j + t];
 
-    if (y->leaf == false) {
+    if (y->is_leaf == false) {
         for (int j = 0; j < t; j++)
             z->C[j] = y->C[j + t];
     }
@@ -50,7 +50,7 @@ TreeNode* TreeNode::Search(double k) {
     if (keys[i] == k)
         return this;
 
-    if (leaf == true)
+    if (is_leaf == true)
         return NULL;
 
     return C[i]->Search(k);
@@ -59,12 +59,12 @@ TreeNode* TreeNode::Search(double k) {
 void TreeNode::Traverse() {
     int i;
     for (i = 0; i < n; i++) {
-        if (leaf == false)
+        if (is_leaf == false)
             C[i]->Traverse();
-        cout << " " << keys[i];
+        cout << " " << keys[i] << " " << n;
     }
 
-    if (leaf == false)
+    if (is_leaf == false)
         C[i]->Traverse();
 }
 
@@ -72,7 +72,7 @@ void TreeNode::Traverse() {
 void TreeNode::InsertNonFull(double k) {
     int i = n - 1;
 
-    if (leaf == true) {
+    if (is_leaf == true) {
         while (i >= 0 && keys[i] > k) {
             keys[i + 1] = keys[i];
             i--;
@@ -104,7 +104,7 @@ void TreeNode::Merge(int idx) {
     for (int i = 0; i < sibling->n; ++i)
         child->keys[i + t] = sibling->keys[i];
 
-    if (!child->leaf) {
+    if (!child->is_leaf) {
         for (int i = 0; i <= sibling->n; ++i)
             child->C[i + t] = sibling->C[i];
     }
@@ -126,13 +126,13 @@ void TreeNode::Deletion(double k) {
     int idx = FindKey(k);
 
     if (idx < n && keys[idx] == k) {
-        if (leaf)
+        if (is_leaf)
             RemoveFromLeaf(idx);
         else
             RemoveFromNonLeaf(idx);
     }
     else {
-        if (leaf) {
+        if (is_leaf) {
             cout << "The key " << k << " is does not exist in the tree\n";
             return;
         }
@@ -183,7 +183,7 @@ void TreeNode::RemoveFromNonLeaf(int idx) {
 
 int TreeNode::GetPredecessor(int idx) {
     TreeNode* cur = C[idx];
-    while (!cur->leaf)
+    while (!cur->is_leaf)
         cur = cur->C[cur->n];
 
     return cur->keys[cur->n - 1];
@@ -191,7 +191,7 @@ int TreeNode::GetPredecessor(int idx) {
 
 int TreeNode::GetSuccessor(int idx) {
     TreeNode* cur = C[idx + 1];
-    while (!cur->leaf)
+    while (!cur->is_leaf)
         cur = cur->C[0];
 
     return cur->keys[0];
@@ -220,14 +220,14 @@ void TreeNode::BorrowFromPrev(int idx) {
     for (int i = child->n - 1; i >= 0; --i)
         child->keys[i + 1] = child->keys[i];
 
-    if (!child->leaf) {
+    if (!child->is_leaf) {
         for (int i = child->n; i >= 0; --i)
             child->C[i + 1] = child->C[i];
     }
 
     child->keys[0] = keys[idx - 1];
 
-    if (!child->leaf)
+    if (!child->is_leaf)
         child->C[0] = sibling->C[sibling->n];
 
     keys[idx - 1] = sibling->keys[sibling->n - 1];
@@ -244,7 +244,7 @@ void TreeNode::BorrowFromNext(int idx) {
 
     child->keys[(child->n)] = keys[idx];
 
-    if (!(child->leaf))
+    if (!(child->is_leaf))
         child->C[(child->n) + 1] = sibling->C[0];
 
     keys[idx] = sibling->keys[0];
@@ -252,7 +252,7 @@ void TreeNode::BorrowFromNext(int idx) {
     for (int i = 1; i < sibling->n; ++i)
         sibling->keys[i - 1] = sibling->keys[i];
 
-    if (!sibling->leaf) {
+    if (!sibling->is_leaf) {
         for (int i = 1; i <= sibling->n; ++i)
             sibling->C[i - 1] = sibling->C[i];
     }
@@ -269,7 +269,7 @@ vector<string> TreeNode::PaintTree(vector<string> strings, int level) {
     }
     
     for (int i = 0; i < n; i++) {
-        if (!this->leaf) {
+        if (!this->is_leaf) {
             strings = this->C[i]->PaintTree(strings, level + 1);
         }
 
@@ -285,7 +285,7 @@ vector<string> TreeNode::PaintTree(vector<string> strings, int level) {
             }
         }
     }
-    if (!this->leaf) {
+    if (!this->is_leaf) {
         strings = this->C[n]->PaintTree(strings, level + 1);
     }
     return strings;

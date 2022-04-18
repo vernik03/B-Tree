@@ -27,7 +27,7 @@ public:
 private:
     double* keys;
     TreeNode** C;
-    bool leaf;
+    bool is_leaf;
     int t;
     int n; // t – 1 < n < 2t – 1
 };

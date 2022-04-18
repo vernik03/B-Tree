@@ -56,6 +56,7 @@ vector<string> BTree::PaintTree() {
     for (string elem : res) {
         cout << elem << endl;
     }
+    cout << endl;
     return res;
 }
 
@@ -70,7 +71,7 @@ void BTree::Find(double k) {
     }
 }
 
-void BTree::ArrInsert(vector<double> input) {
+void BTree::Insert(vector<double> input) {
     for (double in_elem : input)
     {
         Insert(in_elem);
@@ -86,7 +87,7 @@ void BTree::Delete(double k) {
 
     if (root->n == 0) {
         TreeNode* tmp = root;
-        if (root->leaf)
+        if (root->is_leaf)
             root = NULL;
         else
             root = root->C[0];
