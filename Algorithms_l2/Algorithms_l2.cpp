@@ -14,7 +14,7 @@ int main() {
         t.Insert(i);
     }
     t.PaintTree();
-    for (double i = 5; i < 46; i++)
+    for (double i = 1; i < 46; i++)
     {
         t.Delete(i);
     }

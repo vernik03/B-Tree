@@ -122,6 +122,7 @@ void TreeNode::Merge(int idx) {
     return;
 }
 
+
 void TreeNode::Deletion(double k) {
     int idx = FindKey(k);
 
@@ -202,7 +203,7 @@ void TreeNode::Fill(int idx) {
         BorrowFromPrev(idx);
 
     else if (idx != n && C[idx + 1]->n >= t)
-        BorrowFromPrev(idx);
+        BorrowFromNext(idx);
 
     else {
         if (idx != n)
@@ -237,6 +238,7 @@ void TreeNode::BorrowFromPrev(int idx) {
 
     return;
 }
+
 
 void TreeNode::BorrowFromNext(int idx) {
     TreeNode* child = C[idx];
